@@ -25,3 +25,5 @@ for i in range(0, len(x)):
     pdf[i] = gaussian_pdf(x[i], mean, variance**(1/2))
 
 print('Discrete p.d.f. of Gaussian distribution is: ', pdf)
+
+# HACER CONTINUOUS SAMPLES BASÁNDOSE EN EL ARCHIVO GUÍA
