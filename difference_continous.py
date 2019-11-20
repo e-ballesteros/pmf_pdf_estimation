@@ -19,10 +19,11 @@ max_x = mean + half_width
 x = np.arange(min_x, max_x + resolution, resolution)                        # We want to include also de max_x
 print('Vector x is: ', x)
 
-pdf = np.zeros(len(x))                                                      # Create pdf with same length as x
+#pdf = np.zeros(len(x))                                                      # Create pdf with same length as x
+pdf = []
 
 for i in range(0, len(x)):
-    pdf[i] = gaussian_pdf(x[i], mean, variance**(1/2))
+    pdf.append(gaussian_pdf(x[i], mean, variance**(1/2)))
 
 print('Discrete p.d.f. of Gaussian distribution is: ', pdf)
 
