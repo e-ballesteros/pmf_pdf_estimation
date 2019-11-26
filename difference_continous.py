@@ -11,11 +11,8 @@ resolution = float(input('Introduce resolution of p.d.f. vector: '))
 mean = float(input('Introduce mean of Gaussian distribution: '))
 variance = float(input('Introduce variance of Gaussian distribution: '))
 
-# HAY QUE AJUSTAR ESTO
-half_width = 10
-min_x = mean - half_width
-max_x = mean + half_width
-# HAY QUE AJUSTAR ESTO
+min_x = mean - 3 * variance                                                 # The width depends on variance
+max_x = mean + 3 * variance
 
 x = np.arange(min_x, max_x + resolution, resolution)                        # We want to include also de max_x
 print('Vector x is: ', x)
@@ -27,6 +24,7 @@ for i in range(0, len(x)):
     pdf.append(gaussian_pdf(x[i], mean, variance**(1/2)))
 
 print('Discrete p.d.f. of Gaussian distribution is: ', pdf)
+print('Summation of pdf is: ', sum(pdf))
 
 number_samples = int(input('Introduce number of samples: '))
 samples = np.random.choice(x, p=pdf, size=number_samples)                   # Generation of samples of pdf of x
@@ -34,9 +32,11 @@ samples = np.random.choice(x, p=pdf, size=number_samples)                   # Ge
 cont_samp_std = np.std(samples)
 cont_samp_len = len(samples)
 
-# Introduced but not tested
 optimal_bandwidth = 1.06 * cont_samp_std * np.power(cont_samp_len, -1/5)
 bandwidthKDE = optimal_bandwidth
 kernelFunction = 'gaussian'
 kde_object = KernelDensity(kernel=kernelFunction, bandwidth=bandwidthKDE).fit(samples.reshape(-1, 1))
-# Introduced but not tested
+
+print('kde_object is: ', kde_object)
+
+
