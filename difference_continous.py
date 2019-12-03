@@ -26,6 +26,8 @@ for i in range(0, len(x)):
 print('Discrete p.d.f. of Gaussian distribution is: ', pdf)
 print('Summation of pdf is: ', sum(pdf))
 
+
+# Opcion 1: poner p = pdf/sum(pdf)
 number_samples = int(input('Introduce number of samples: '))
 samples = np.random.choice(x, p=pdf, size=number_samples)                   # Generation of samples of pdf of x
 

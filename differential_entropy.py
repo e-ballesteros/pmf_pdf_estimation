@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 
-from scipy.integrate import quad
+
 from numpy import inf                       # We will need to integrate with infinite limits
 from numpy import log as ln
+from numpy import trapz
 
 
-def differential_entropy(function):         # Function must be a function declared outside differential_entropy.py
+def differential_entropy(pdf, x_pdf):       # pdf is a vector because we want to perform a numerical integration
 
-    def f(x):
-        if function(x) > 0:
-            return -1 * function(x) * ln(function(x))
+    f = []
+
+    for i in range(0, len(pdf)):
+        if pdf[i] > 0:
+            f.append(-1 * pdf[i] * ln(pdf[i]))
         else:
-            return 0
+            f.append(0)
 
-    ans, err = quad(f, -inf, +inf)          # Integration of function with infinite range
+    ans = trapz(f, x_pdf)
     return ans
