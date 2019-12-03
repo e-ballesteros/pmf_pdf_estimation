@@ -2,6 +2,8 @@
 
 
 import numpy as np
+
+from differential_entropy import differential_entropy
 from estimation_pmf import estimate_pmf
 from entropy import entropy
 from pdf_gaussian import gaussian_pdf
@@ -15,7 +17,6 @@ min_x = mean - 3 * variance                                                 # Th
 max_x = mean + 3 * variance
 
 x = np.arange(min_x, max_x + resolution, resolution)                        # We want to include also de max_x
-print('Vector x is: ', x)
 
 # pdf = np.zeros(len(x))                                                      # Create pdf with same length as x
 pdf = []
@@ -23,9 +24,14 @@ pdf = []
 for i in range(0, len(x)):
     pdf.append(gaussian_pdf(x[i], mean, variance**(1/2)))
 
-print('Discrete p.d.f. of Gaussian distribution is: ', pdf)
-print('Summation of pdf is: ', sum(pdf))
-
+print('Differential entropy of Gaussian distribution with resolution = ',
+      resolution,
+      ', mean = ',
+      mean,
+      ' and variance = ',
+      variance,
+      ' is ',
+      differential_entropy(pdf, x))
 
 # Opcion 1: poner p = pdf/sum(pdf)
 number_samples = int(input('Introduce number of samples: '))
