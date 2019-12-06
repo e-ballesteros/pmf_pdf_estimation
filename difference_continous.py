@@ -4,8 +4,6 @@
 import numpy as np
 
 from differential_entropy import differential_entropy
-from estimation_pmf import estimate_pmf
-from entropy import entropy
 from pdf_gaussian import gaussian_pdf
 from sklearn.neighbors import KernelDensity
 
@@ -18,11 +16,10 @@ max_x = mean + 3 * variance
 
 x = np.arange(min_x, max_x + resolution, resolution)                        # We want to include also de max_x
 
-# pdf = np.zeros(len(x))                                                      # Create pdf with same length as x
-pdf = []
+pdf = []                                                                    # Gaussian pdf
 
 for i in range(0, len(x)):
-    pdf.append(gaussian_pdf(x[i], mean, variance**(1/2)))
+    pdf.append(gaussian_pdf(x[i], mean, variance**(1/2)))                   # Computation of Gaussian pdf
 
 print('Differential entropy of Gaussian distribution with resolution = ',
       resolution,
@@ -31,18 +28,17 @@ print('Differential entropy of Gaussian distribution with resolution = ',
       ' and variance = ',
       variance,
       ' is ',
-      differential_entropy(pdf, x))
+      differential_entropy(pdf, x))                                         # Differential entropy of Gaussian dist.
 
-pdf_disc = [i/sum(pdf) for i in pdf]                                           # Divide all elements by sum(pdf)
+pdf_disc = [i/sum(pdf) for i in pdf]                                        # Divide all elements in pdf by sum(pdf)
 
-# Opcion 1: poner p = pdf/sum(pdf)
 number_samples = int(input('Introduce number of samples: '))
-samples = np.random.choice(x, p=pdf_disc, size=number_samples)                   # Generation of samples of pdf of x
+samples = np.random.choice(x, p=pdf_disc, size=number_samples)              # Generation of samples of pdf of x
 
-cont_samp_std = np.std(samples)
-cont_samp_len = len(samples)
-cont_samp_min = min(samples)
-cont_samp_max = max(samples)
+cont_samp_std = np.std(samples)                                             # Standard deviation of samples list
+cont_samp_len = len(samples)                                                # Length of samples list
+cont_samp_min = min(samples)                                                # Minimum value of samples list
+cont_samp_max = max(samples)                                                # Highest value of samples list
 margin = cont_samp_std * 2
 
 optimal_bandwidth = 1.06 * cont_samp_std * np.power(cont_samp_len, -1/5)
@@ -53,7 +49,7 @@ X_plot = np.linspace(cont_samp_min - margin, cont_samp_max + margin, 1000)[:, np
 kde_LogDensity_estimate = kde_object.score_samples(X_plot)
 kde_estimate = np.exp(kde_LogDensity_estimate)
 
-X_plot = np.linspace(cont_samp_min - margin, cont_samp_max + margin, 1000)
+X_plot = np.linspace(cont_samp_min - margin, cont_samp_max + margin, 1000)  # x values of estimated pdf
 
 print('Differential entropy of estimated p.d.f from a set of samples of a Gaussian distribution with resolution = ',
       resolution,
