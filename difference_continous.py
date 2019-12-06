@@ -33,18 +33,33 @@ print('Differential entropy of Gaussian distribution with resolution = ',
       ' is ',
       differential_entropy(pdf, x))
 
+pdf_disc = [i/sum(pdf) for i in pdf]                                           # Divide all elements by sum(pdf)
+
 # Opcion 1: poner p = pdf/sum(pdf)
 number_samples = int(input('Introduce number of samples: '))
-samples = np.random.choice(x, p=pdf, size=number_samples)                   # Generation of samples of pdf of x
+samples = np.random.choice(x, p=pdf_disc, size=number_samples)                   # Generation of samples of pdf of x
 
 cont_samp_std = np.std(samples)
 cont_samp_len = len(samples)
+cont_samp_min = min(samples)
+cont_samp_max = max(samples)
+margin = cont_samp_std * 2
 
 optimal_bandwidth = 1.06 * cont_samp_std * np.power(cont_samp_len, -1/5)
 bandwidthKDE = optimal_bandwidth
 kernelFunction = 'gaussian'
 kde_object = KernelDensity(kernel=kernelFunction, bandwidth=bandwidthKDE).fit(samples.reshape(-1, 1))
+X_plot = np.linspace(cont_samp_min - margin, cont_samp_max + margin, 1000)[:, np.newaxis]
+kde_LogDensity_estimate = kde_object.score_samples(X_plot)
+kde_estimate = np.exp(kde_LogDensity_estimate)
 
-print('kde_object is: ', kde_object)
+X_plot = np.linspace(cont_samp_min - margin, cont_samp_max + margin, 1000)
 
-
+print('Differential entropy of estimated p.d.f from a set of samples of a Gaussian distribution with resolution = ',
+      resolution,
+      ', mean = ',
+      mean,
+      ' and variance = ',
+      variance,
+      ' is ',
+      differential_entropy(kde_estimate, X_plot))
