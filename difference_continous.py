@@ -87,3 +87,5 @@ print('From a set of samples of a Gaussian distribution with resolution = ',
       ',\nthe relative difference (%) between the differential entropy of the p.d.f. and the estimated p.d.f. is: ',
       abs(dif_entropy_estimated - dif_entropy)/dif_entropy * 100,
       '%')
+
+# Comentario de prueba
